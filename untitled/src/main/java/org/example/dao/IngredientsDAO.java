@@ -317,4 +317,18 @@ public class IngredientsDAO {
             return total;
         }
     }
+    public BigDecimal getStockAtDate(int ingredientId, LocalDateTime date) throws SQLException {
+        String sql = "SELECT SUM(CASE WHEN type = 'ENTRY' THEN quantity ELSE -quantity END) AS total " +
+                "FROM stock_movement WHERE ingredient_id = ? AND movement_date <= ?";
+        try (Connection conn = new dbConnexion().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, ingredientId);
+            stmt.setTimestamp(2, Timestamp.valueOf(date));
+            ResultSet rs = stmt.executeQuery();
+
+            BigDecimal total = rs.next() ? rs.getBigDecimal("total") : BigDecimal.ZERO;
+            System.out.println("[DEBUG] Stock calculé pour ingredient_id=" + ingredientId + " à " + date + " : " + total);
+            return total != null ? total : BigDecimal.ZERO;
+        }
+    }
 }

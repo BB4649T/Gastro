@@ -2,12 +2,7 @@ package org.example;
 
 import org.example.dao.dishDAO;
 import org.example.dao.IngredientsDAO;
-import org.example.entity.Dish;
-import org.example.entity.IngredientPriceHistory;
-import org.example.entity.Ingredients;
-import org.example.entity.StockMovement;
-import org.example.entity.Unite;
-
+import org.example.entity.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,10 +30,6 @@ public class Main {
 
             ingredientsDAO.addPriceToHistory(chicken.getId(), BigDecimal.valueOf(5.00), LocalDate.now().minusDays(7));
             ingredientsDAO.addPriceToHistory(chicken.getId(), BigDecimal.valueOf(7.00), LocalDate.now());
-
-            // Récupération du prix d'un ingrédient à une date donnée
-            BigDecimal tomatoPrice = ingredientsDAO.getPriceAtDate(tomato.getId(), LocalDate.now().minusDays(5));
-            System.out.println("Prix de la tomate il y a 5 jours : " + tomatoPrice);
 
             // Création d'un plat
             Dish tomatoSoup = new Dish(0, "Tomato Soup", BigDecimal.valueOf(5.99).doubleValue(), new ArrayList<>());
